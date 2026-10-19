@@ -76,11 +76,7 @@ p { margin: 0; }
 .nav { display: flex; gap: 22px; margin-left: auto; }
 .nav a { text-decoration: none; font-size: var(--s-sm); color: var(--ash); transition: color .2s; }
 .nav a:hover { color: var(--bone); }
-.rec { display: flex; align-items: center; gap: 8px; color: var(--ash); white-space: nowrap; }
-.rec b { width: 8px; height: 8px; border-radius: 50%; background: var(--wine-hi); animation: blink 1.6s steps(2, start) infinite; }
-@keyframes blink { to { visibility: hidden; } }
-@media (max-width: 760px) { .nav { display: none; } .rec { margin-left: auto; } }
-@media (max-width: 480px) { .rec { display: none; } }
+@media (max-width: 760px) { .nav { display: none; } }
 
 /* ---------- hero ---------- */
 .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--graphite-500); }
@@ -110,12 +106,6 @@ p { margin: 0; }
 .btns { display: flex; flex-wrap: wrap; gap: 12px; }
 @media (max-width: 760px) { .hero-foot { grid-template-columns: 1fr; } }
 
-/* ---------- ticker ---------- */
-.ticker { border-bottom: 1px solid var(--graphite-500); overflow: hidden; background: var(--graphite-800); }
-.ticker-track { display: flex; width: max-content; animation: tick 38s linear infinite; }
-.ticker span { font-family: var(--f-display); font-size: var(--s-lg); padding: 18px 28px; white-space: nowrap; color: var(--ash); display: flex; align-items: center; gap: 28px; }
-.ticker span::after { content: ""; width: 9px; height: 9px; background: var(--wine-hi); transform: rotate(45deg); }
-@keyframes tick { to { transform: translateX(-50%); } }
 
 /* ---------- sections ---------- */
 section.block { padding-block: clamp(64px, 9vw, 120px); border-bottom: 1px solid var(--graphite-500); scroll-margin-top: 60px; }
@@ -406,15 +396,38 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
 .reach-row a.v:hover { color: var(--wine-hi); }
 @media (max-width: 520px) { .reach-row { grid-template-columns: minmax(0, 1fr) auto; } .reach-row .label { grid-column: 1 / -1; } }
 
-/* ---------- player modal ---------- */
-.player { width: min(1200px, 100vw - 32px); max-width: 100%; padding: 0; border: 1px solid var(--graphite-500); border-radius: 8px; background: var(--graphite-800); color: var(--bone); }
-.player::backdrop { background: rgba(10, 10, 12, .86); backdrop-filter: blur(4px); }
-.player video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
-.player-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding: 14px 18px; }
-.player-bar h3 { font-size: var(--s-lg); }
-.player-bar .mono { color: var(--ash); }
-.player-close { margin-left: auto; background: transparent; border: 1px solid var(--graphite-500); color: var(--bone); border-radius: 999px; padding: 8px 16px; font: 500 var(--s-sm) var(--f-body); cursor: pointer; }
-.player-close:hover { border-color: var(--bone); }
+/* ---------- case (окно проекта) ---------- */
+.case { width: 100%; max-width: 100%; height: 100dvh; max-height: 100dvh; margin: 0; padding: 0; border: 0; background: var(--graphite-900); color: var(--bone); overflow: auto; overscroll-behavior: contain; }
+.case::backdrop { background: var(--graphite-900); }
+.case-bar {
+  position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 16px;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) var(--gutter-r) 12px var(--gutter);
+  background: color-mix(in srgb, var(--graphite-900) 86%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--graphite-500);
+}
+.case-bar .crumb { color: var(--ash); font-size: var(--s-sm); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.case-bar .crumb b { color: var(--bone); font-weight: 600; }
+.case-close { margin-left: auto; flex: none; background: transparent; border: 1px solid var(--graphite-500); color: var(--bone); border-radius: 999px; padding: 8px 18px; font: 500 var(--s-sm) var(--f-body); cursor: pointer; transition: border-color .2s, background .2s; }
+.case-close:hover { border-color: var(--bone); }
+.case-body { max-width: 1120px; margin: 0 auto; padding: 40px var(--gutter-r) calc(80px + env(safe-area-inset-bottom, 0px)) var(--gutter); display: grid; gap: 40px; }
+.case-head { display: grid; gap: 14px; }
+.case-head h2 { font-size: clamp(2rem, 5vw, 3.6rem); letter-spacing: -.035em; }
+.case-head .lead { color: var(--ash); font-size: var(--s-lg); max-width: 60ch; }
+.case-media video, .case-media img { display: block; width: 100%; border-radius: 12px; border: 1px solid var(--graphite-500); background: #000; }
+.case-media video { aspect-ratio: 16 / 9; }
+.case-info { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 32px 48px; align-items: start; }
+.case-meta { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 20px; margin: 0; }
+.case-meta dt { font-family: var(--f-mono); font-size: var(--s-xs); text-transform: uppercase; letter-spacing: .12em; color: var(--ash); padding-top: .2em; }
+.case-meta dd { margin: 0; }
+.case-task h3, .case-sec h3 { font-family: var(--f-display); font-size: var(--s-lg); font-weight: 600; letter-spacing: -.01em; margin-bottom: 12px; }
+.case-task p { color: color-mix(in srgb, var(--bone) 86%, transparent); max-width: 62ch; }
+.case-sec { display: grid; gap: 4px; }
+.case-sec .count { color: var(--ash); font-size: var(--s-sm); margin: -8px 0 10px; }
+.case-imgs { display: grid; gap: 16px; }
+.case-imgs img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--graphite-500); background: var(--graphite-800); }
+.case-imgs.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) { .case-info { grid-template-columns: 1fr; } .case-imgs.two { grid-template-columns: 1fr; } }
+.work .more { color: var(--wine-hi); }
 
 /* ---------- timeline (fixed bottom) ---------- */
 .tl {
@@ -446,10 +459,6 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
 .tl-sec { color: var(--ash); min-width: 9ch; text-align: right; }
 @media (max-width: 560px) { .tl-fps, .tl-sec { display: none; } }
 
-@media (prefers-reduced-motion: reduce) {
-  *:not(.stage *), *:not(.stage *)::before, *:not(.stage *)::after { animation: none !important; transition: none !important; }
-  html { scroll-behavior: auto; }
-}
 </style>
 </head>
 <body>
@@ -462,7 +471,6 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
       <a href="#stack">Стек</a>
       <a href="#contact">Контакты</a>
     </nav>
-    <span class="rec mono"><b></b>Рассматриваю предложения</span>
   </div>
 </header>
 
@@ -489,24 +497,20 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
     </div>
   </section>
 
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker-track" id="ticker">
-      <span>Моушн-графика</span><span>Монтаж</span><span>2D-анимация</span><span>Промо-сайты с 3D</span><span>UI-анимация</span><span>Персонажи</span><span>Авторская иллюстрация</span>
-    </div>
-  </div>
 
   <section class="block" id="works" data-key="Работы">
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="label">Избранное · 6 проектов · 3:29 анимации</span>
+          <span class="label">8 проектов</span>
           <h2>Работы</h2>
         </div>
         <div class="filters" role="group" aria-label="Фильтр по направлению">
           <button class="chip" type="button" id="f-all" data-f="all" aria-pressed="true">Все</button>
           <button class="chip" type="button" id="f-3d" data-f="3d" aria-pressed="false">3D</button>
-          <button class="chip" type="button" id="f-2d" data-f="2d" aria-pressed="false">2D</button>
+          <button class="chip" type="button" id="f-2d" data-f="2d" aria-pressed="false">2D-анимация</button>
           <button class="chip" type="button" id="f-ui" data-f="ui" aria-pressed="false">Сайты и UI</button>
+          <button class="chip" type="button" id="f-gr" data-f="graphic" aria-pressed="false">Графика</button>
         </div>
       </div>
       <div class="grid" id="grid"></div>
@@ -517,7 +521,7 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="label">Чем работаю · 7 инструментов</span>
+          <span class="label">Программы</span>
           <h2>Стек</h2>
         </div>
       </div>
@@ -552,13 +556,9 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
   </section>
 </main>
 
-<dialog class="player" id="player" aria-labelledby="playerTitle">
-  <video id="playerVideo" controls playsinline preload="none"></video>
-  <div class="player-bar">
-    <h3 id="playerTitle"></h3>
-    <span class="mono" id="playerMeta"></span>
-    <button class="player-close" type="button" id="playerClose">Закрыть</button>
-  </div>
+<dialog class="case" id="case" aria-labelledby="caseTitle">
+  <div class="case-bar"><span class="crumb">Работы / <b id="caseCrumb"></b></span><button class="case-close" type="button" id="caseClose">Закрыть</button></div>
+  <div class="case-body" id="caseBody"></div>
 </dialog>
 
 <div class="tl" aria-label="Шкала прокрутки страницы">
@@ -577,7 +577,6 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
 <script>
 (() => {
   const $ = (id) => document.getElementById(id);
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const hover = matchMedia("(hover: hover)").matches;
   const css = getComputedStyle(document.documentElement);
   const C = {
@@ -625,43 +624,78 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
   if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; }).observe(hero);
 
   /* ---------- works ---------- */
-  // Чтобы добавить работу: положите mp4 и jpg-обложку в папку media и допишите строку сюда.
+  // Работа = видео (file) или картинка (cover). sections — материалы процесса для окна проекта.
+  const img = (dir, list) => list.map((n) => `${dir}/${String(n).padStart(2, "0")}`);
   const works = [
-    { t: "М.Видео", c: "Промо-сайт с 3D-сценами: склад, город, витрина товаров", file: "mvideo-site", dur: 30.81, fps: 30, tools: "Blender · Figma · AE", cat: ["3d", "ui"] },
-    { t: "Яндекс Маркет", c: "Моушн-ролик: кинетическая типографика и иконки товаров", file: "ya-market", dur: 24.8, fps: 30, tools: "AE · Illustrator", cat: ["2d"] },
-    { t: "Альфа-Банк", c: "Анимация сайта: путь от поиска до калькулятора кредита", file: "alfa-credit", dur: 36.03, fps: 30, tools: "Figma · AE", cat: ["ui"] },
-    { t: "Экранное время", c: "Персонажный 2D-ролик о жизни, которая проходит мимо смартфона", file: "screen-time", dur: 65.34, fps: 30, tools: "Illustrator · AE · Premiere", cat: ["2d"] },
-    { t: "Карточная игра", c: "Анимация игрового стола и авторская колода карт", file: "card-game", dur: 17.07, fps: 30, tools: "Illustrator · AE", cat: ["ui", "2d"] },
-    { t: "Магазин кроссовок", c: "Промо мобильного приложения: каталог, карточка товара, корзина", file: "sneakers-app", dur: 35.37, fps: 30, tools: "Figma · AE", cat: ["2d", "ui"] },
+    { id: "mvideo", t: "М.Видео", c: "Рекламная кампания: промо-сайт с 3D-сценами, анимированные 3D-иконки и постер",
+      file: "mvideo-site", dur: 30.81, fps: 30, tools: "Blender, Figma, After Effects", cat: ["3d", "ui"], context: "Учебный проект, МИЭТ, 2026",
+      task: "Создать рекламную продукцию для магазина электроники «М.Видео»: две цикличные анимации для сайта, три анимированные 3D-иконки и постер формата А4. Все сцены и объекты смоделированы и отрендерены в Blender.",
+      sections: [
+        { h: "Задача, состав проекта и палитра", imgs: img("mvideo", [2, 3, 4]) },
+        { h: "3D-сцены: блокинг, сетка, шейдинг, рендер", imgs: img("mvideo", [6, 7, 8, 9, 10, 11]), two: true },
+        { h: "Баннеры и макет сайта", imgs: img("mvideo", [12, 13, 14]) },
+        { h: "3D-иконки: эскиз, сетка, рендер", imgs: img("mvideo", [15, 16, 17]) },
+        { h: "Постер", imgs: img("mvideo", [18]) },
+      ] },
+    { id: "deck", t: "Мифы Эллады", c: "Авторская колода игральных карт по древнегреческим мифам и анимация игрового стола",
+      file: "card-game", cover: "deck-cover", dur: 17.07, fps: 30, tools: "Illustrator, After Effects", cat: ["graphic", "ui"], context: "Учебный проект, МИЭТ, 2026",
+      task: "Спроектировать тематическую иллюстрированную колоду. Каждая масть посвящена мифу, где герой побеждает чудовище с помощью союзника: Пламя (Беллерофонт и Химера), Вода (Одиссей и Сцилла), Камень (Персей и Медуза), Воздух (Бореады и Гарпии). Король каждой масти изображает героя, дама чудовище, валет союзника. Перед работой я изучил историю игральных карт и мастей.",
+      sections: [
+        { h: "Исследование: история игральных карт", imgs: img("deck", [11, 12, 13, 14, 15, 16, 17]), two: true },
+        { h: "Концепция: четыре мифа", imgs: img("deck", [18, 19, 20, 21, 22]), two: true },
+        { h: "Иерархия колоды", imgs: img("deck", [23]) },
+        { h: "Колода и масти", imgs: img("deck", [24, 25, 26, 27, 28, 29]) },
+        { h: "Игровое поле", imgs: img("deck", [30]) },
+      ] },
+    { id: "zhizn", t: "17 ценностей России. Жизнь.", c: "Персонажный 2D-ролик о том, как смартфон отнимает у человека реальную жизнь",
+      file: "screen-time", dur: 65.34, fps: 30, tools: "Illustrator, After Effects, Premiere Pro", cat: ["2d"], context: "Учебный проект, МИЭТ, 2026",
+      task: "Сформировать осознанное отношение к использованию смартфонов, показав, как из-за них человек теряет связь с реальной жизнью.",
+      sections: [{ h: "Презентационный лист: персонаж, палитра, сцены", imgs: ["zhizn/sheet"] }] },
+    { id: "miet", t: "Как добраться до МИЭТ", c: "Инфографический ролик: маршруты на электричке и автобусе до университета",
+      file: "miet", dur: 22.56, fps: 25, tools: "After Effects", cat: ["2d"] },
+    { id: "font", t: "Геометрический шрифт", c: "Кириллица, где каждая буква собрана из математического понятия: асимптота, биссектриса, вектор, интеграл",
+      cover: "font-cover", tools: "Illustrator", cat: ["graphic"],
+      task: "Построить алфавит на основе геометрии: каждая буква изображает математический термин, который с неё начинается. «А» нарисована как асимптота, «Б» как биссектриса, «В» как вектор, и так до «Я» в слове «трапеция».",
+      sections: [{ h: "Алфавит целиком", imgs: ["font/alphabet"] }] },
+    { id: "market", t: "Яндекс Маркет", c: "Моушн-ролик: кинетическая типографика и иконки товаров",
+      file: "ya-market", dur: 24.8, fps: 30, tools: "After Effects, Illustrator", cat: ["2d"] },
+    { id: "alfa", t: "Альфа-Банк", c: "Анимация сайта: путь от поиска до калькулятора кредита",
+      file: "alfa-credit", dur: 36.03, fps: 30, tools: "Figma, After Effects", cat: ["ui"] },
+    { id: "sneakers", t: "Магазин кроссовок", c: "Промо мобильного приложения: каталог, карточка товара, корзина",
+      file: "sneakers-app", dur: 35.37, fps: 30, tools: "Figma, After Effects", cat: ["2d", "ui"] },
   ];
-  const catName = { "3d": "3D", "2d": "2D", ui: "Сайт / UI" };
+  const catName = { "3d": "3D", "2d": "2D-анимация", ui: "Сайт / UI", graphic: "Графика" };
+  const plural = (n, a, b, c) => (n % 10 === 1 && n % 100 !== 11 ? a : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? b : c);
+  const imgCount = (w) => (w.sections || []).reduce((n, s) => n + s.imgs.length, 0);
   const grid = document.getElementById("grid");
   works.forEach((w, i) => {
     const b = document.createElement("button");
     b.type = "button"; b.className = "work"; b.dataset.cat = w.cat.join(" ");
-    b.setAttribute("aria-label", `Смотреть: ${w.t}. ${w.c}`);
+    b.setAttribute("aria-label", `Открыть проект: ${w.t}. ${w.c}`);
+    const n = imgCount(w);
+    const hud = w.file ? `<span class="mono">${tc(w.dur, w.fps)}</span><span class="mono">${w.fps} fps</span>` : `<span class="mono">Графика</span><span></span>`;
     b.innerHTML = `
       <div class="frame">
-        <video muted loop playsinline preload="none" src="media/${w.file}.mp4" aria-hidden="true"></video>
-        <img src="media/${w.file}.jpg" alt="" loading="lazy">
-        <div class="hud"><span class="mono">${tc(w.dur, w.fps)}</span><span class="mono">${w.fps} fps</span></div>
+        ${w.file ? `<video muted loop playsinline preload="none" src="media/${w.file}.mp4" aria-hidden="true"></video>` : ""}
+        <img src="media/${w.cover || w.file}.jpg" alt="" loading="lazy">
+        <div class="hud">${hud}</div>
         <span class="play" aria-hidden="true"></span></div>
       <div class="work-info"><h3>${w.t}</h3><span class="mono" style="color:var(--ash)">${String(i + 1).padStart(2, "0")}</span>
         <span class="client">${w.c}</span>
-        <div class="tags mono"><span>${w.cat.map((c) => catName[c]).join(" / ")}</span><span>${w.tools}</span></div></div>`;
+        <div class="tags mono"><span>${w.cat.map((c) => catName[c]).join(" / ")}</span>${n ? `<span class="more">+ процесс: ${n} ${plural(n, "изображение", "изображения", "изображений")}</span>` : ""}</div></div>`;
     grid.appendChild(b);
     const v = b.querySelector("video");
-    const start = () => { if (reduce) return; v.play().then(() => b.classList.add("live")).catch(() => {}); };
-    const stop = () => { v.pause(); b.classList.remove("live"); };
-    if (hover) {
-      b.addEventListener("pointerenter", start);
-      b.addEventListener("pointerleave", stop);
-      b.addEventListener("focus", start);
-      b.addEventListener("blur", stop);
-    } else if ("IntersectionObserver" in window) {
-      new IntersectionObserver(([e]) => (e.intersectionRatio > .6 ? start() : stop()), { threshold: [0, .6] }).observe(b);
+    if (v) {
+      const start = () => { v.play().then(() => b.classList.add("live")).catch(() => {}); };
+      const stop = () => { v.pause(); b.classList.remove("live"); };
+      if (hover) {
+        b.addEventListener("pointerenter", start); b.addEventListener("pointerleave", stop);
+        b.addEventListener("focus", start); b.addEventListener("blur", stop);
+      } else if ("IntersectionObserver" in window) {
+        new IntersectionObserver(([e]) => (e.intersectionRatio > .6 ? start() : stop()), { threshold: [0, .6] }).observe(b);
+      }
     }
-    b.addEventListener("click", () => openPlayer(w));
+    b.addEventListener("click", () => openCase(w));
   });
 
   document.querySelectorAll(".filters .chip").forEach((b) => b.addEventListener("click", () => {
@@ -671,20 +705,43 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
     layoutKeys(); onScroll();
   }));
 
-  /* ---------- player ---------- */
-  const player = document.getElementById("player"), pv = document.getElementById("playerVideo");
-  function openPlayer(w) {
-    pv.src = `media/${w.file}.mp4`; pv.poster = `media/${w.file}.jpg`;
-    document.getElementById("playerTitle").textContent = w.t;
-    document.getElementById("playerMeta").textContent = `${w.c} · ${tc(w.dur, w.fps)}`;
-    if (player.showModal) player.showModal(); else player.setAttribute("open", "");
-    pv.play().catch(() => {});
+  /* ---------- окно проекта ---------- */
+  const caseEl = $("case"), caseBody = $("caseBody");
+  const esc = (t) => t.replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+  function openCase(w) {
+    const meta = [
+      ["Тип", w.cat.map((c) => catName[c]).join(", ")],
+      w.file && ["Хронометраж", `${Math.floor(w.dur / 60)}:${String(Math.round(w.dur % 60)).padStart(2, "0")}`],
+      ["Программы", w.tools],
+      w.context && ["Контекст", w.context],
+    ].filter(Boolean);
+    const media = w.file
+      ? `<video controls playsinline preload="metadata" poster="media/${w.file}.jpg" src="media/${w.file}.mp4"></video>`
+      : `<img src="media/${(w.sections && w.sections[0].imgs[0]) || w.cover}.jpg" alt="${esc(w.t)}">`;
+    const sections = (w.file ? w.sections || [] : (w.sections || []).slice(1)).map((s) => `
+      <section class="case-sec"><h3>${esc(s.h)}</h3>
+        <div class="case-imgs${s.two && s.imgs.length > 1 ? " two" : ""}">${s.imgs.map((src, k) => `<img src="media/${src}.jpg" alt="${esc(s.h)}, изображение ${k + 1}" loading="lazy">`).join("")}</div>
+      </section>`).join("");
+    caseBody.innerHTML = `
+      <header class="case-head"><h2 id="caseTitle">${esc(w.t)}</h2><p class="lead">${esc(w.c)}</p></header>
+      <div class="case-media">${media}</div>
+      <div class="case-info">
+        <dl class="case-meta">${meta.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
+        ${w.task ? `<div class="case-task"><h3>Задача</h3><p>${esc(w.task)}</p></div>` : ""}
+      </div>${sections}`;
+    $("caseCrumb").textContent = w.t;
+    document.documentElement.style.overflow = "hidden";
+    if (caseEl.showModal) caseEl.showModal(); else caseEl.setAttribute("open", "");
+    caseEl.scrollTop = 0;
+    caseBody.querySelector("video")?.play().catch(() => {});
   }
-  const closePlayer = () => { pv.pause(); player.close ? player.close() : player.removeAttribute("open"); };
-  document.getElementById("playerClose").addEventListener("click", closePlayer);
-  player.addEventListener("click", (e) => { if (e.target === player) closePlayer(); });
-  player.addEventListener("close", () => pv.pause());
-
+  const closeCase = () => { caseEl.close ? caseEl.close() : caseEl.removeAttribute("open"); };
+  $("caseClose").addEventListener("click", closeCase);
+  caseEl.addEventListener("close", () => {
+    caseBody.querySelector("video")?.pause();
+    caseBody.innerHTML = "";
+    document.documentElement.style.overflow = "";
+  });
 
   /* ---------- stack ---------- */
   // У каждой сцены: подпись-термин, длительность цикла (для счётчика кадров) и разметка.
@@ -706,7 +763,7 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
            <rect class="an" x="25" y="73" width="10" height="10"/><rect class="an" x="165" y="73" width="10" height="10"/></svg>` },
     bl: { cap: "Viewport", dur: 6, html: `<i class="floor"></i><i class="sh"></i><div class="bob"><div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>` },
     fg: { cap: "Auto layout", dur: 3, html: `<span class="fl">Frame · 1440</span><i class="fr"></i><i class="r r1"></i><i class="r r2"></i><i class="r r3"></i><i class="r r4"></i><i class="sel"></i>` },
-    nn: { cap: "Prompt → image", dur: 3.2, html: () => {
+    nn: { cap: "Prompt", dur: 3.2, html: () => {
       // Форма — ромб в сетке 16×5; остальные точки — шум
       let dots = "";
       for (let y = 0; y < 5; y++) for (let x = 0; x < 16; x++) {
@@ -746,8 +803,6 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
     const showFrame = () => (fc.textContent = `f ${String(Math.floor(elapsed * 25) % total).padStart(3, "0")}`);
     showFrame();
     const tick = (now) => { elapsed += (now - last) / 1000; last = now; showFrame(); raf = requestAnimationFrame(tick); };
-    // Сцена запускается только по действию человека (наведение, фокус, касание),
-    // поэтому играет и при включённом «уменьшении движения»; наклон плитки тогда отключён.
     const play = () => { el.classList.add("on"); if (raf) return; svg?.unpauseAnimations?.(); last = performance.now(); raf = requestAnimationFrame(tick); };
     const pause = () => { el.classList.remove("on"); svg?.pauseAnimations?.(); cancelAnimationFrame(raf); raf = 0; };
     const resetTilt = () => { ["--rx", "--ry"].forEach((p) => el.style.setProperty(p, "0deg")); ["--px", "--py"].forEach((p) => el.style.setProperty(p, "0px")); };
@@ -758,7 +813,6 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
       const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
       el.style.setProperty("--mx", `${x * 100}%`); el.style.setProperty("--my", `${y * 100}%`);
       if (!raf) play();
-      if (reduce) return;
       el.style.setProperty("--ry", `${(x - .5) * 8}deg`); el.style.setProperty("--rx", `${(.5 - y) * 8}deg`);
       el.style.setProperty("--px", `${(x - .5) * -6}px`); el.style.setProperty("--py", `${(y - .5) * -6}px`);
     });
@@ -769,7 +823,7 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
     // Касание на телефоне включает и выключает сцену
     el.addEventListener("pointerup", (e) => { if (!isMouse(e)) (raf ? pause : play)(); });
 
-    if (!hover && !reduce && "IntersectionObserver" in window) {
+    if (!hover && "IntersectionObserver" in window) {
       // На телефоне сцена ещё и сама играет, пока плитка на экране
       new IntersectionObserver(([e]) => (e.intersectionRatio > .6 ? play() : pause()), { threshold: [0, .6] }).observe(el);
     }
@@ -783,7 +837,7 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
     const k = document.createElement("button");
     k.className = "tl-key"; k.type = "button"; k.setAttribute("aria-label", `Перейти: ${sec.dataset.key}`);
     k.innerHTML = `<span>${sec.dataset.key}</span>`;
-    k.addEventListener("click", (e) => { e.stopPropagation(); sec.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); });
+    k.addEventListener("click", (e) => { e.stopPropagation(); sec.scrollIntoView({ behavior: "smooth" }); });
     track.appendChild(k); return k;
   });
   const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
@@ -798,15 +852,13 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
   }
   track.addEventListener("click", (e) => {
     const r = track.getBoundingClientRect();
-    scrollTo({ top: ((e.clientX - r.left) / r.width) * maxScroll(), behavior: reduce ? "auto" : "smooth" });
+    scrollTo({ top: ((e.clientX - r.left) / r.width) * maxScroll(), behavior: "smooth" });
   });
   addEventListener("scroll", onScroll, { passive: true });
   addEventListener("resize", () => { layoutKeys(); onScroll(); });
   addEventListener("load", () => { layoutKeys(); onScroll(); });
   layoutKeys(); onScroll();
 
-  /* ---------- ticker duplication ---------- */
-  const tk = $("ticker"); tk.innerHTML += tk.innerHTML;
 
   /* ---------- copy email ---------- */
   $("copyMail").addEventListener("click", (e) => {
@@ -817,7 +869,6 @@ section.contacts { border-bottom: 0; padding-bottom: 40px; }
   });
 
   /* ---------- main loop ---------- */
-  if (reduce) return;
   let last = performance.now();
   (function loop(now) {
     const dt = Math.min(.05, (now - last) / 1000); last = now;
